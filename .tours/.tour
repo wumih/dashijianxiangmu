@@ -1,0 +1,31 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "大事件项目核心代码解析",
+  "steps": [
+    {
+      "file": "src/router/index.js",
+      "description": "从 vue-router 库中按需引入了两个核心函数。\ncreateRouter: 用于创建路由实例对象。\ncreateWebHistory: 用于指定路由的工作模式为 HTML5 History 模式。",
+      "line": 2
+    },
+    {
+      "file": "vite.config.js",
+      "description": "文件： vite.config.js\n\n操作： 告诉 Vite 启用这两个插件，并设置规则：“只要看到以 El 开头的组件（比如 ElButton），就自动去 Element Plus 库里把对应的代码找出来。”\n\n3. 享受成果（直接使用）\n代码：\n\nHTML\n\n<el-button type=\"primary\">Primary</el-button>\n核心优势： 你发现没有？你不需要写 import 语句了！\n\n你不需要在 <script> 里写 import { ElButton } ...。\n\n你不需要在 components: {} 里注册。\n\n就像使用 HTML 原生标签（如 div）一样直接使用 Element 的组件。\n\n🥚 关于那个“彩蛋”是什么意思？\n“默认 components 下的文件也会被自动注册”\n\n这其实是 unplugin-vue-components 插件附赠的一个超级好用的功能。\n\n意思是： 以后你自己写的组件（比如放在 src/components/MyHeader.vue），在别的页面里使用时，也不需要引入了！ 可以直接写 <MyHeader />，插件会自动帮你找到它并引入。",
+      "line": 16
+    },
+    {
+      "file": "src/router/index.js",
+      "description": "将配置好的 router 对象导出。\n这样在 src/main.js 中就可以通过 app.use(router) 来启用路由功能（正如你在提供的 main.js 上下文中所见）。",
+      "line": 19
+    },
+    {
+      "file": "src/router/index.js",
+      "description": "这是一个数组，用于定义路径 (path) 和 组件 (component) 的映射关系。\n当前状态: 它是空的 []，意味着目前你的项目中还没有配置任何页面跳转规则。如果此时启动项目并访问任何路径，通常只会看到空白或 App.vue 的基础内容，因为没有匹配到具体的组件。\n未来用法: 你稍后会在这里添加对象，例如：\njavascript\nroutes: [\n  { path: '/login', component: () => import('@/views/Login.vue') }\n]\n这行代码是 Vue Router 中用于定义路由规则的配置对象。它的作用是告诉 Vue 应用：当用户访问 /login 这个网址时，应该加载并显示哪个组件。\n\n具体含义拆解如下：\n\n1. path: '/login'\n含义：定义 URL 路径。\n作用：当浏览器地址栏的路径变为 /login（例如 http://localhost:5173/login）时，就会匹配到这条规则。\n2. component: () => import('@/views/Login.vue')\n这里包含两个关键点：\n\nA. 路由懒加载 (Lazy Loading)\n写法：() => import(...) 是一个箭头函数，返回一个动态导入（Dynamic Import）的 Promise。\n核心作用：这是性能优化的关键写法。\n如果不这样写（即在文件顶部使用 import Login from ...），那么项目启动时，Login.vue 的代码会被立刻打包并下载，即使在这个时候用户根本还没点击登录。\n使用这种写法：只有当用户真正访问 /login 这个页面时，浏览器才会去下载 Login.vue 对应的代码文件。这能显著减小首屏加载体积，加快网页打开速度。\nB. 路径别名 @\n含义：@ 是 Vite（或 Webpack）配置的一个路径别名，通常代表项目的 src 目录。\n作用：@/views/Login.vue 等同于 src/views/Login.vue。使用别名可以避免写复杂的相对路径（如 ../../views/Login.vue）。\n总结\n这段代码的意思是：\n\n“在路由表中添加一条规则：当用户访问 /login 路径时，按需（懒加载）从 src/views/Login.vue 导入并渲染登录组件。”",
+      "line": 16
+    },
+    {
+      "file": "src/router/index.js",
+      "description": "createWebHistory(): 开启 History 模式。这种模式下的 URL 看起来像普通的网站路径（例如 http://localhost:5173/login），没有旧版路由常见的井号 #（例如 http://localhost:5173/#/login）。\nimport.meta.env.BASE_URL: 这是 Vite 构建工具提供的环境变量。它代表项目的基础路径。\n默认情况下是 /。\n如果你将来把项目部署到服务器的子目录（比如 https://example.com/my-project/），Vite 会自动把这个变量设置为 /my-project/，路由也能自动识别这个前缀，无需手动硬编码。",
+      "line": 15
+    }
+  ]
+}

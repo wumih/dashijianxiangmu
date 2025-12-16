@@ -1,6 +1,9 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useUserStore } from '@/stores'
+import { useRouter } from 'vue-router'
+import { userRegisterService, userLoginService } from '@/api/user'
 const isRegister = ref(true)
 
 // 整个的用于提交的form数据对象
@@ -52,6 +55,34 @@ const rules = {
     }
   ]
 }
+const form = ref()
+const userStore = useUserStore()
+const router = useRouter()
+
+watch(isRegister, () => {
+  formModel.value = {
+    username: '',
+    password: '',
+    repassword: ''
+  }
+})
+// 注册请求
+const register = async () => {
+  await form.value.validate()
+  await userRegisterService(formModel.value)
+  ElMessage.success('注册成功')
+  // 切换到登录
+  isRegister.value = false
+}
+
+// 登录请求
+const login = async () => {
+  await form.value.validate()
+  const res = await userLoginService(formModel.value)
+  userStore.setToken(res.data.token)
+  ElMessage.success('登录成功')
+  router.push('/')
+}
 </script>
 
 <template>
@@ -67,13 +98,14 @@ const rules = {
           <el-input v-model="formModel.username" :prefix-icon="User" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="formModel.password" :prefix-icon="Lock" type="password" placeholder="请输入密码"></el-input>
+          <el-input v-model="formModel.password" name="password" :prefix-icon="Lock" type="password"
+            placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item prop="repassword">
           <el-input v-model="formModel.repassword" :prefix-icon="Lock" type="password" placeholder="请输入再次密码"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button class="button" type="primary" auto-insert-space>
+          <el-button @click="register" class="button" type="primary" auto-insert-space>
             注册
           </el-button>
         </el-form-item>
@@ -92,7 +124,8 @@ const rules = {
           <el-input v-model="formModel.username" :prefix-icon="User" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="formModel.password" :prefix-icon="Lock" type="password" placeholder="请输入密码"></el-input>
+          <el-input v-model="formModel.password" name="password" :prefix-icon="Lock" type="password"
+            placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item class="flex">
           <div class="flex">
@@ -102,6 +135,7 @@ const rules = {
         </el-form-item>
         <el-form-item>
           <el-button class="button" type="primary" auto-insert-space>登录</el-button>
+          <el-button @click="login" class="button" type="primary" auto-insert-space>登录</el-button>
         </el-form-item>
         <el-form-item class="flex">
           <el-link type="info" :underline="false" @click="isRegister = true">

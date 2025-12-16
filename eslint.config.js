@@ -10,7 +10,12 @@ export default [
     files: ['**/*.{js,mjs,jsx,vue}'],
     // 👇 2. 添加这一段，告诉 ESLint 这里有浏览器全局变量
     languageOptions: {
-      globals: globals.browser
+      globals: {
+        ...globals.browser,
+        ElMessage: 'readonly',
+        ElMessageBox: 'readonly',
+        ElLoading: 'readonly'
+      }
     }
   },
 

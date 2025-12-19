@@ -4,7 +4,8 @@ import { ref, watch } from 'vue'
 import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { userRegisterService, userLoginService } from '@/api/user'
-const isRegister = ref(true)
+const isRegister = ref(false)
+const form = ref()
 
 // 整个的用于提交的form数据对象
 const formModel = ref({
@@ -45,20 +46,21 @@ const rules = {
     },
     {
       validator: (rule, value, callback) => {
+        // 判断 value 和 当前 form 中收集的 password 是否一致
         if (value !== formModel.value.password) {
           callback(new Error('两次输入密码不一致!'))
         } else {
-          callback()
+          callback() // 就算校验成功，也需要callback
         }
       },
       trigger: 'blur'
     }
   ]
 }
-const form = ref()
+
 const userStore = useUserStore()
 const router = useRouter()
-
+// 切换的时候，重置表单内容
 watch(isRegister, () => {
   formModel.value = {
     username: '',
@@ -68,6 +70,7 @@ watch(isRegister, () => {
 })
 // 注册请求
 const register = async () => {
+    // 注册成功之前，先进行校验，校验成功 → 请求，校验失败 → 自动提示
   await form.value.validate()
   await userRegisterService(formModel.value)
   ElMessage.success('注册成功')
@@ -86,6 +89,23 @@ const login = async () => {
 </script>
 
 <template>
+  <!--
+    1. 结构相关
+      el-row表示一行，一行分成24份
+       el-col表示列
+       (1) :span="12"  代表在一行中，占12份 (50%)
+       (2) :span="6"   表示在一行中，占6份  (25%)
+       (3) :offset="3" 代表在一行中，左侧margin份数
+
+       el-form 整个表单组件
+       el-form-item 表单的一行 （一个表单域）
+       el-input 表单元素（输入框）
+    2. 校验相关
+       (1) el-form => :model="ruleForm"      绑定的整个form的数据对象 { xxx, xxx, xxx }
+       (2) el-form => :rules="rules"         绑定的整个rules规则对象  { xxx, xxx, xxx }
+       (3) 表单元素 => v-model="ruleForm.xxx" 给表单元素，绑定form的子属性
+       (4) el-form-item => prop配置生效的是哪个校验规则 (和rules中的字段要对应)
+  -->
   <el-row class="login-page">
     <el-col :span="12" class="bg"></el-col>
     <el-col :span="6" :offset="3" class="form">

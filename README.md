@@ -1,44 +1,55 @@
-# dashijianxiangmu
+这是一个标准的 Vue 3 + Vite 项目的 `README.md` 中文翻译。为了方便使用，我保留了必要的 Markdown 格式。
 
-This template should help get you started developing with Vue 3 in Vite.
+---
 
-## Recommended IDE Setup
+该模板旨在帮助你基于 Vite 启动 Vue 3 开发。
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### 推荐的 IDE 设置
 
-## Recommended Browser Setup
+* [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (请务必禁用 Vetur)。
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### 推荐的浏览器配置
 
-## Customize configuration
+* **Chromium 内核浏览器** (Chrome, Edge, Brave 等): [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+* *请在 Chrome DevTools 设置中开启 "Custom Object Formatter" (自定义对象格式化程序)*
 
-See [Vite Configuration Reference](https://vite.dev/config/).
 
-## Project Setup
+* **Firefox**: [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+* *请在 Firefox DevTools 设置中开启 "Custom Object Formatter" (自定义对象格式化程序)*
+
+
+
+### 自定义配置
+
+请参阅 [Vite 配置参考](https://vitejs.dev/config/)。
+
+### 项目安装
 
 ```sh
 pnpm install
+
 ```
 
-### Compile and Hot-Reload for Development
+### 编译并开启热重载 (Hot-Reload) 用于开发
 
 ```sh
 pnpm dev
+
 ```
 
-### Compile and Minify for Production
+### 编译并压缩用于生产环境
 
 ```sh
 pnpm build
+
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### 使用 ESLint 进行代码检查
 
 ```sh
 pnpm lint
+
 ```
+
+---
+

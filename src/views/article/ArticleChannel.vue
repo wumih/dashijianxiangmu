@@ -71,3 +71,4 @@ onMounted(() => {
     <ChannelEdit ref="dialog" @success="onSuccess"></ChannelEdit>
   </PageContainer>
 </template>
+<style lang="scss" scoped></style>
